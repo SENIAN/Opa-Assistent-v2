@@ -1,0 +1,254 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OPAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Familie">
+          <Key>
+            <PropertyRef Name="FamilieID" />
+          </Key>
+          <Property Name="FamilieID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FamilieNaam" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Kennis">
+          <Key>
+            <PropertyRef Name="KennisID" />
+          </Key>
+          <Property Name="KennisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naam" Type="nvarchar" MaxLength="50" />
+          <Property Name="Achternaam" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefoonnummer" Type="int" />
+          <Property Name="PersoonID" Type="int" />
+        </EntityType>
+        <EntityType Name="Persoon">
+          <Key>
+            <PropertyRef Name="PersoonID" />
+          </Key>
+          <Property Name="PersoonID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naam" Type="nvarchar" MaxLength="50" />
+          <Property Name="Achternaam" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefoonnummer" Type="int" />
+          <Property Name="FamilieID" Type="int" Nullable="false" />
+          <Property Name="E-mail" Type="varchar" MaxLength="50" />
+          <Property Name="KennisID" Type="int" />
+          <Property Name="Loginnaam" Type="nvarchar" MaxLength="25" />
+          <Property Name="Wachtwoord" Type="varchar" MaxLength="16" />
+        </EntityType>
+        <Association Name="FK_Kennis_Persoon">
+          <End Role="Persoon" Type="Self.Persoon" Multiplicity="0..1" />
+          <End Role="Kennis" Type="Self.Kennis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persoon">
+              <PropertyRef Name="PersoonID" />
+            </Principal>
+            <Dependent Role="Kennis">
+              <PropertyRef Name="PersoonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persoon_Kennis">
+          <End Role="Kennis" Type="Self.Kennis" Multiplicity="0..1" />
+          <End Role="Persoon" Type="Self.Persoon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kennis">
+              <PropertyRef Name="KennisID" />
+            </Principal>
+            <Dependent Role="Persoon">
+              <PropertyRef Name="KennisID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OPAModelStoreContainer">
+          <EntitySet Name="Familie" EntityType="Self.Familie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kennis" EntityType="Self.Kennis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persoon" EntityType="Self.Persoon" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Kennis_Persoon" Association="Self.FK_Kennis_Persoon">
+            <End Role="Persoon" EntitySet="Persoon" />
+            <End Role="Kennis" EntitySet="Kennis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persoon_Kennis" Association="Self.FK_Persoon_Kennis">
+            <End Role="Kennis" EntitySet="Kennis" />
+            <End Role="Persoon" EntitySet="Persoon" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OPAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Familie">
+          <Key>
+            <PropertyRef Name="FamilieID" />
+          </Key>
+          <Property Name="FamilieID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Persoon" Relationship="Self.FK_Persoon" FromRole="Familie" ToRole="Persoon" />
+          <NavigationProperty Name="Persoon1" Relationship="Self.FK_Persoon_Familie" FromRole="Familie" ToRole="Persoon" />
+          <Property Name="FamilieNaam" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Persoon">
+          <Key>
+            <PropertyRef Name="PersoonID" />
+          </Key>
+          <Property Name="PersoonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naam" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Achternaam" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefoonnummer" Type="Int32" />
+          <Property Name="FamilieID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Familie" Relationship="Self.FK_Persoon" FromRole="Persoon" ToRole="Familie" />
+          <NavigationProperty Name="Familie1" Relationship="Self.FK_Persoon_Familie" FromRole="Persoon" ToRole="Familie" />
+          <Property Name="E_mail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KennisID" Type="Int32" />
+          <Property Name="Loginnaam" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="Wachtwoord" Type="String" MaxLength="16" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Kennis" Relationship="OPAModel.FK_Kennis_Persoon" FromRole="Persoon" ToRole="Kennis" />
+          <NavigationProperty Name="Kennis1" Relationship="OPAModel.FK_Persoon_ToTable" FromRole="Persoon" ToRole="Kennis" />
+        </EntityType>
+        <Association Name="FK_Persoon">
+          <End Role="Familie" Type="Self.Familie" Multiplicity="1" />
+          <End Role="Persoon" Type="Self.Persoon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Familie">
+              <PropertyRef Name="FamilieID" />
+            </Principal>
+            <Dependent Role="Persoon">
+              <PropertyRef Name="FamilieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persoon_Familie">
+          <End Role="Familie" Type="Self.Familie" Multiplicity="1" />
+          <End Role="Persoon" Type="Self.Persoon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Familie">
+              <PropertyRef Name="FamilieID" />
+            </Principal>
+            <Dependent Role="Persoon">
+              <PropertyRef Name="FamilieID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OPAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Familie" EntityType="Self.Familie" />
+          <EntitySet Name="Persoon" EntityType="Self.Persoon" />
+          <AssociationSet Name="FK_Persoon" Association="Self.FK_Persoon">
+            <End Role="Familie" EntitySet="Familie" />
+            <End Role="Persoon" EntitySet="Persoon" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persoon_Familie" Association="Self.FK_Persoon_Familie">
+            <End Role="Familie" EntitySet="Familie" />
+            <End Role="Persoon" EntitySet="Persoon" />
+          </AssociationSet>
+          <EntitySet Name="Kennis" EntityType="OPAModel.Kennis" />
+          <AssociationSet Name="FK_Kennis_Persoon" Association="OPAModel.FK_Kennis_Persoon">
+            <End Role="Persoon" EntitySet="Persoon" />
+            <End Role="Kennis" EntitySet="Kennis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Persoon_ToTable" Association="OPAModel.FK_Persoon_ToTable">
+            <End Role="Kennis" EntitySet="Kennis" />
+            <End Role="Persoon" EntitySet="Persoon" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Kennis">
+          <Key>
+            <PropertyRef Name="KennisID" />
+          </Key>
+          <Property Name="KennisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naam" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Achternaam" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefoonnummer" Type="Int32" />
+          <Property Name="PersoonID" Type="Int32" />
+          <NavigationProperty Name="Persoon" Relationship="OPAModel.FK_Kennis_Persoon" FromRole="Kennis" ToRole="Persoon" />
+          <NavigationProperty Name="Persoon1" Relationship="OPAModel.FK_Persoon_ToTable" FromRole="Kennis" ToRole="Persoon" />
+        </EntityType>
+        <Association Name="FK_Kennis_Persoon">
+          <End Type="OPAModel.Persoon" Role="Persoon" Multiplicity="0..1" />
+          <End Type="OPAModel.Kennis" Role="Kennis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persoon">
+              <PropertyRef Name="PersoonID" />
+            </Principal>
+            <Dependent Role="Kennis">
+              <PropertyRef Name="PersoonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Persoon_ToTable">
+          <End Type="OPAModel.Kennis" Role="Kennis" Multiplicity="0..1" />
+          <End Type="OPAModel.Persoon" Role="Persoon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kennis">
+              <PropertyRef Name="KennisID" />
+            </Principal>
+            <Dependent Role="Persoon">
+              <PropertyRef Name="KennisID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OPAModelStoreContainer" CdmEntityContainer="OPAEntities">
+          <EntitySetMapping Name="Familie">
+            <EntityTypeMapping TypeName="OPAModel.Familie">
+              <MappingFragment StoreEntitySet="Familie">
+                <ScalarProperty Name="FamilieNaam" ColumnName="FamilieNaam" />
+                <ScalarProperty Name="FamilieID" ColumnName="FamilieID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persoon">
+            <EntityTypeMapping TypeName="OPAModel.Persoon">
+              <MappingFragment StoreEntitySet="Persoon">
+                <ScalarProperty Name="Wachtwoord" ColumnName="Wachtwoord" />
+                <ScalarProperty Name="Loginnaam" ColumnName="Loginnaam" />
+                <ScalarProperty Name="KennisID" ColumnName="KennisID" />
+                <ScalarProperty Name="E_mail" ColumnName="E-mail" />
+                <ScalarProperty Name="PersoonID" ColumnName="PersoonID" />
+                <ScalarProperty Name="Naam" ColumnName="Naam" />
+                <ScalarProperty Name="Achternaam" ColumnName="Achternaam" />
+                <ScalarProperty Name="Telefoonnummer" ColumnName="Telefoonnummer" />
+                <ScalarProperty Name="FamilieID" ColumnName="FamilieID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kennis">
+            <EntityTypeMapping TypeName="OPAModel.Kennis">
+              <MappingFragment StoreEntitySet="Kennis">
+                <ScalarProperty Name="PersoonID" ColumnName="PersoonID" />
+                <ScalarProperty Name="Telefoonnummer" ColumnName="Telefoonnummer" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Achternaam" ColumnName="Achternaam" />
+                <ScalarProperty Name="Naam" ColumnName="Naam" />
+                <ScalarProperty Name="KennisID" ColumnName="KennisID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

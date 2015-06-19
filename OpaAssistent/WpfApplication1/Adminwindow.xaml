@@ -1,0 +1,11 @@
+﻿<Window x:Class="WpfApplication1.Adminwindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Adminwindow" Height="300" Width="500">
+    <Grid>
+        <Button Content="Nieuwe Gebruiker" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="117"/>
+        <Button Content="Muteren Gebruiker" HorizontalAlignment="Left" Margin="147,10,0,0" VerticalAlignment="Top" Width="169"/>
+        <Button Content="Verwijderen Gebruiker" HorizontalAlignment="Left" Margin="341,10,0,0" VerticalAlignment="Top" Width="141"/>
+
+    </Grid>
+</Window>
